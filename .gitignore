@@ -1,0 +1,14 @@
+# EVE SDE database - too large for git (400MB+) and regenerated
+# automatically at startup by internal/sdeupdate.
+sde/eve_sde.db
+sde/eve_sde.db.md5
+
+# Build artifacts
+webapp/webapp.exe
+webapp/webapp.exe~
+dist/
+
+# Local session/log files
+server.out.log
+server.err.log
+.claude/

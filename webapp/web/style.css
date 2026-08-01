@@ -1,0 +1,148 @@
+:root {
+  /* Calm is the default palette: muted, moderate contrast, no
+     high-luminance fills. Vivid (opt-in below) uses brighter versions
+     of the same colours for anyone who prefers stronger emphasis. */
+  --color-positive: #3a7350;
+  --color-negative: #a4514f;
+  --color-warning-bg: #f3efe4;
+  --color-warning-border: #b3924f;
+  --font-scale: 1;
+
+  /* Overall page skin: warm, soft neutrals instead of stark white/black. */
+  --page-bg: #f6f3ee;
+  --card-bg: #fffdfa;
+  --border-color: #ddd5c4;
+  --text-color: #2b2925;
+  --heading-color: #3f5a55;
+  --table-header-bg: #ede6d8;
+}
+
+:root[data-color-intensity="vivid"] {
+  --color-positive: #0a7d1e;
+  --color-negative: #b3261e;
+  --color-warning-bg: #fff3cd;
+  --color-warning-border: #e0b400;
+}
+
+:root[data-text-size="small"] {
+  --font-scale: 0.85;
+}
+
+:root[data-text-size="large"] {
+  --font-scale: 1.2;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  font-size: calc(1rem * var(--font-scale));
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  color: var(--text-color);
+  background: var(--page-bg);
+}
+
+h1 {
+  font-size: 1.4rem;
+  color: var(--heading-color);
+}
+
+h2 {
+  font-size: 1.1rem;
+  color: var(--heading-color);
+  margin-top: 0;
+}
+
+.display-settings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+section {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  gap: 0.25rem;
+}
+
+select, input, button {
+  font-size: calc(1rem * var(--font-scale));
+  padding: 0.35rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--card-bg);
+  color: var(--text-color);
+}
+
+button {
+  height: 2.2rem;
+  background: var(--heading-color);
+  color: #fdfcfa;
+  border-color: var(--heading-color);
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid var(--border-color);
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+}
+
+th {
+  background: var(--table-header-bg);
+}
+
+.profit-positive {
+  color: var(--color-positive);
+}
+
+.profit-negative {
+  color: var(--color-negative);
+}
+
+.risk-flag {
+  color: var(--color-negative);
+  font-weight: 600;
+}
+
+.has-tooltip {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+.warnings {
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning-border);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+}

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PI Profitability</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Planetary Industry Profitability</h1>
+
+<div class="display-settings">
+  <label>
+    Colour intensity
+    <select id="colorIntensity">
+      <option value="calm" selected>Calm (muted colours)</option>
+      <option value="vivid">Vivid (brighter colours)</option>
+    </select>
+  </label>
+  <label>
+    Text size
+    <select id="textSize">
+      <option value="small">Small text size</option>
+      <option value="normal" selected>Normal text size</option>
+      <option value="large">Large text size</option>
+    </select>
+  </label>
+</div>
+
+<form id="calc-form">
+  <label>
+    Target material
+    <select id="target"></select>
+  </label>
+
+  <label>
+    Region
+    <select id="region"></select>
+  </label>
+
+  <label>
+    Buy materials at this tier
+    <select id="buyTier"></select>
+  </label>
+
+  <label>
+    Batch quantity
+    <input id="qty" type="number" min="0" step="any" value="1">
+  </label>
+
+  <label>
+    Factories (target tier)
+    <input id="factories" type="number" min="1" step="1" value="1">
+  </label>
+
+  <label>
+    Command Center Upgrades level
+    <select id="ccSkillLevel">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5" selected>5</option>
+    </select>
+  </label>
+
+  <button type="submit">Calculate</button>
+</form>
+
+<div id="warnings" class="warnings" hidden></div>
+
+<section id="summary" hidden>
+  <h2>Summary</h2>
+  <table>
+    <tr><th>Total Cost</th><td id="sum-cost"></td></tr>
+    <tr><th>Total Value</th><td id="sum-value"></td></tr>
+    <tr><th>Total Profit</th><td id="sum-profit"></td></tr>
+    <tr><th>Margin</th><td id="sum-margin"></td></tr>
+    <tr><th>Build Time (Total)</th><td id="sum-build-time"></td></tr>
+    <tr><th>Total Power Load</th><td id="sum-power-load"></td></tr>
+    <tr><th>Total CPU Load</th><td id="sum-cpu-load"></td></tr>
+    <tr><th>Minimum Links</th><td id="sum-min-links"></td></tr>
+    <tr><th class="has-tooltip" title="Minimum Command Centers = the larger of these three numbers:&#10;1&#10;the total power load (factories plus links) divided by one Command Center's power output, rounded up&#10;the total CPU load (factories plus links) divided by one Command Center's CPU output, rounded up&#10;Minimum Links = the number of factories (every factory needs a link, and they all also need to reach a Command Center or Launchpad to move materials on and off the planet, so the fewest links that connect everything, including that hub, equals the factory count).&#10;A Command Center's power and CPU output depend on the selected Command Center Upgrades level.">Minimum Command Centers</th><td id="sum-min-cc"></td></tr>
+  </table>
+</section>
+
+<section id="factories-section" hidden>
+  <h2>Factories Required for Continuous Supply</h2>
+  <table id="factories-table">
+    <thead>
+      <tr><th>Tier</th><th>Material</th><th>Factory Type</th><th>Rate Needed (units/hr)</th><th>Rate per Factory (units/hr)</th><th>Factories Needed</th><th>Power Load</th><th>CPU Load</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<section id="layers-section" hidden>
+  <h2>Layer-by-Layer Rollup</h2>
+  <table id="layers-table">
+    <thead>
+      <tr><th>Tier</th><th>Cost</th><th>Value</th><th>Total Profit</th><th>Total Profitability %</th><th>Items at This Tier</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<section id="shopping-section" hidden>
+  <h2>Shopping List</h2>
+  <table id="shopping-table">
+    <thead>
+      <tr><th>Item</th><th>Quantity</th><th>Unit Cost</th><th>Total Cost</th><th>Unit Volume (m3)</th><th>Total Volume (m3)</th><th class="has-tooltip" title="An item is flagged as a risk when both of these are true:&#10;Heavily Demanded: its buy-order volume is at or above the middle value for its tier&#10;Lightly Supplied: its sell-order volume is below the middle value for its tier&#10;An item with no sell orders at all is always flagged, and labelled &quot;No sell orders, buy order required&quot; instead - that is the most extreme case of being lightly supplied.">Supply Chain Risk</th></tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot></tfoot>
+  </table>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>

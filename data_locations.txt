@@ -1,0 +1,8 @@
+# Location of SDE dump all of the items, descriptions, and item types
+https://www.fuzzwork.co.uk/dump/
+
+# Location of market pricing API
+https://market.fuzzwork.co.uk/api/
+
+# Location of guide on how items work together to produce other items
+https://www.thonky.com/eve-online-guide/planetary-industry
