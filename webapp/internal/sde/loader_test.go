@@ -1,11 +1,22 @@
+//go:build integration
+
+// Excluded from a plain `go test ./...` since these need the real SDE
+// database, which is gitignored (400MB+, self-downloaded by
+// internal/sdeupdate) and so isn't present on a fresh checkout or in CI.
+// Run via:
+//
+//	go test -tags=integration ./internal/sde/...
+//
+// after the app has run at least once locally to download sde/eve_sde.db.
 package sde
 
 import "testing"
 
-// realDBPath points at the actual SDE dump shipped alongside this repo.
-// This is deliberately an integration test against real data, not a mock -
-// the whole point is catching cases where the SDE's actual shape (or CCP's
-// own numbers) doesn't match what the rest of this codebase assumes.
+// realDBPath points at the real SDE dump, expected to already be present
+// locally (see package doc above). This is deliberately an integration
+// test against real data, not a mock - the whole point is catching cases
+// where the SDE's actual shape (or CCP's own numbers) doesn't match what
+// the rest of this codebase assumes.
 const realDBPath = "../../../sde/eve_sde.db"
 
 func TestLoad_FacilityStatsMatchKnownSDEValues(t *testing.T) {

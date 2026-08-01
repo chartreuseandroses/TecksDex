@@ -25,6 +25,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: webapp/go.mod
+          cache-dependency-path: webapp/go.sum
       - run: go vet ./...
       - run: go test ./...
       - name: Install govulncheck
@@ -58,6 +59,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: webapp/go.mod
+          cache-dependency-path: webapp/go.sum
       - name: Build
         env:
           GOOS: ${{ matrix.goos }}
