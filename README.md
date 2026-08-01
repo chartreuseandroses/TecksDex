@@ -73,6 +73,24 @@ database into a single folder someone else can unzip and run:
 .\package-release.ps1
 ```
 
+## Releases
+
+Pushing a tag like `v1.0.0` triggers [`.github/workflows/release.yml`](.github/workflows/release.yml),
+which runs the tests and `govulncheck`, cross-compiles binaries for
+Windows, Linux, and macOS (amd64 + arm64), and publishes them to a GitHub
+Release. Unlike `package-release.ps1`, these don't bundle the SDE database -
+the binary downloads and verifies its own copy on first run, so the
+release artifacts are just the executable plus this README.
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+`workflow_dispatch` (a manual run from the Actions tab) runs the build and
+test steps without publishing a release, useful for checking the workflow
+itself still passes.
+
 ## Data
 
 - The SDE (item data, schematics, facility/Command Center/link stats) comes

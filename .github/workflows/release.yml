@@ -1,0 +1,95 @@
+name: Release
+
+# Builds and (on a version tag) publishes a GitHub Release with compiled
+# binaries for Windows, Linux, and macOS. The SDE database is deliberately
+# not bundled here - it's 400MB+ and the app downloads/verifies its own
+# copy from Fuzzwork on first run (see internal/sdeupdate), so shipping a
+# stale copy in every release would be both wasteful and pointless.
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: webapp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: webapp/go.mod
+      - run: go vet ./...
+      - run: go test ./...
+      - name: Install govulncheck
+        run: go install golang.org/x/vuln/cmd/govulncheck@latest
+      - name: Scan for known vulnerabilities
+        run: govulncheck ./...
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: webapp
+    strategy:
+      matrix:
+        include:
+          - goos: windows
+            goarch: amd64
+            ext: ".exe"
+          - goos: linux
+            goarch: amd64
+            ext: ""
+          - goos: darwin
+            goarch: amd64
+            ext: ""
+          - goos: darwin
+            goarch: arm64
+            ext: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: webapp/go.mod
+      - name: Build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: "0"
+        run: go build -o "teckdex${{ matrix.ext }}" .
+      - name: Package
+        run: |
+          name="teckdex-${{ matrix.goos }}-${{ matrix.goarch }}"
+          mkdir -p "../dist/$name"
+          cp "teckdex${{ matrix.ext }}" "../dist/$name/"
+          cp ../README.md "../dist/$name/"
+          (cd ../dist && zip -r "$name.zip" "$name")
+      - uses: actions/upload-artifact@v4
+        with:
+          name: teckdex-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: dist/teckdex-${{ matrix.goos }}-${{ matrix.goarch }}.zip
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --repo "${{ github.repository }}" \
+            --title "${{ github.ref_name }}" \
+            --generate-notes \
+            artifacts/*/*.zip
