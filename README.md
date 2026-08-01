@@ -30,9 +30,11 @@ to run the chain continuously.
   automatically if it's out of date.
 - Built with an eye toward the [autism-friendly design
   principles](designing-for-autistic-people-principles.md) distilled from
-  Irina Rusakova's research overview: a muted default colour palette, an
-  optional vivid palette and adjustable text size, literal labelling, and
-  no unnecessary motion or interruptions.
+  Irina Rusakova's ["Designing for autistic people - overview of existing
+  research"](https://uxdesign.cc/designing-for-autistic-people-overview-of-existing-research-d6f6dc20710e)
+  (UX Collective, 2020): a muted default colour palette, an optional vivid
+  palette and adjustable text size, literal labelling, and no unnecessary
+  motion or interruptions.
 
 ## Requirements
 

@@ -1,6 +1,6 @@
 # Design Principles for Autistic Users
 
-*Distilled from Irina Rusakova, "Designing for autistic people — overview of existing research" (UX Collective, 2020).*
+*Distilled from Irina Rusakova, ["Designing for autistic people — overview of existing research"](https://uxdesign.cc/designing-for-autistic-people-overview-of-existing-research-d6f6dc20710e) (UX Collective, 2020).*
 
 ---
 
